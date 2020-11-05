@@ -1,0 +1,127 @@
+﻿@model IEnumerable<casasamaritanonorte.ViewModels.EventoViewModels>
+@{
+    ViewBag.Title = "Lista de Eventos";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dados dos Eventos</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.ID)</th>
+                            <th>@Html.DisplayNameFor(model => model.DataEvento)</th>
+                            <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+                            <th>@Html.DisplayNameFor(model => model.DataPublicacao)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.ID)</th>
+                            <th>@Html.DisplayNameFor(model => model.DataEvento)</th>
+                            <th>@Html.DisplayNameFor(model => model.Titulo)</th>
+                            <th>@Html.DisplayNameFor(model => model.DataPublicacao)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ID)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DataEvento)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DataPublicacao)</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Evento", new { id = item.ID })" class="btn btn-info btn-circle">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    |
+                                    <a href="#" data-id="@item.ID" class="btn btn-danger btn-circle delete"  data-toggle="modal" data-target="#Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<script>
+    $(document).ready(function () {
+
+        $('#dataTable').DataTable({
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#form-excluir").prop('action', '@Url.Action("Delete", "Evento")/' + id);
+            $("#Excluir").modal();
+        });
+    });
+
+
+
+</script>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="Excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Deseja realmente excluir esse registro?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Ao clicar em "Apagar Registro" a conta será excluída.</div>
+            <div class="modal-footer">
+                @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-excluir" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input class="btn btn-primary" type="submit" value="Apagar Registro" />
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>

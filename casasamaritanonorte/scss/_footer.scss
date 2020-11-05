@@ -1,0 +1,53 @@
+footer.sticky-footer {
+  padding: 2rem 0;
+  flex-shrink: 0;
+  .copyright {
+    line-height: 1;
+    font-size: 0.8rem;
+  }
+}
+
+body.sidebar-toggled {
+  footer.sticky-footer {
+    width: 100%;
+  }
+}
+
+// Footer Contact Address
+
+
+.footer__contact__wrapper {
+    padding: 40px 0;
+
+    .single__footer__address {
+        display: flex;
+
+        .ft__contact__icon {
+            margin-right: 10px;
+            position: relative;
+            width: 47px;
+            z-index: 2;
+
+            &::before {
+                background-image: url("../Imagens/star.png");
+                content: "";
+                height: 46px;
+                position: absolute;
+                width: 46px;
+                z-index: -1;
+            }
+
+            i {
+                color: #fff;
+                font-size: 26px;
+                left: 50%;
+                position: absolute;
+                top: 45%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+        }
+
+        .ft__contact__details {
+        }
+    }
+}

@@ -1,0 +1,264 @@
+﻿@model List<casasamaritanonorte.ViewModels.FinanceiroViewModels>
+
+@{
+    ViewBag.Title = "Financeiro";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dados Financeiros</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Data da compra</th>
+                            <th>Status do pagamento</th>
+                            <th>Doação</th>
+                            <th>Valor</th>
+                            <th>Valor Frete</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th>Forma de Pagamento</th>
+                            <th>Comissão Paga</th>
+                            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                            {
+                                <th>Captador</th>
+                                <th>Ações</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.Campanha != null ? item.Campanha.Nome : "Doação")</td>
+                                <td>@item.Data.ToString("dd/MM/yyyy")</td>
+                                <td>@item.StatusPagamento</td>
+                                <td>@(item.Campanha != null ? item.Campanha.Doacao ? "Sim" : "Não" : "Sim")</td>
+                                <td>@item.Valor</td>
+                                <td>@item.Frete</td>
+                                <td>@item.Quantidade</td>
+                                <td>@item.Total</td>
+                                <td>@item.FormaPagamento</td>
+                                <td>@(item.ComissaoPaga ? "Sim" : "Não")</td>
+                                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                                {
+                                    <th>@(item.Captador != null ? item.Captador.Nome : " - ")</th>
+
+
+                                    <th>
+                                        @if (!item.ComissaoPaga && item.StatusPagamento == "Pago" && item.Captador != null)
+                                        {
+                                            <button data-id="@item.IDPagamento" class="btn btn-info btn-circle informar_entrega" title="Informar Pagamento Comissão">
+                                                <i class="fa fa-money-bill-wave"></i>
+                                            </button>
+                                        }
+
+                                    </th>
+                                }
+                            </tr>
+
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="filtrar">Produto</th>
+                            <th></th>
+                            <th class="filtrar">Status do pagamento</th>
+                            <th class="filtrar">Doação</th>
+                            <th class="text-success total_footer">Valor</th>
+                            <th class="text-success total_footer">Valor Frete</th>
+                            <th></th>
+                            <th class="text-success total_footer">Total</th>
+                            <th class="filtrar">Forma de Pagamento</th>
+                            <th class="filtrar">Comissão Paga</th>
+                            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                            {
+                                <th class="filtrar">Captador</th>
+                                <th></th>
+                            }
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<script>
+
+
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        $('#dataTable tfoot th').each(function () {
+            var title = $(this).text();
+            if ($(this).hasClass("filtrar")) {
+                $(this).html('<select class="custom-select custom-select-sm form-control form-control-sm"><option value=""> Filtrar </option></select>');
+            }
+
+        });
+
+
+        var table = $('#dataTable').DataTable({
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            },
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    var valor = typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                    return valor ;
+                };
+
+                // Total over all pages
+                total = api
+                    .column(7)
+                    .data()
+                    .reduce(function (a, b) {
+                        return formataDinheiro( intVal(a) + intVal(b) );
+                    }, 0);
+
+                // Total over this page
+                pageTotal = api
+                    .column(4, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return formataDinheiro(intVal(a) + intVal(b));
+                    }, 0);
+
+                // Update footer
+                $(api.column(4).footer()).html(
+                    pageTotal
+                );
+
+                // Total over this page
+                pageTotal = api
+                    .column(5, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return formataDinheiro(intVal(a) + intVal(b));
+                    }, 0);
+
+                // Update footer
+                $(api.column(5).footer()).html(
+                    pageTotal
+                );
+
+                // Total over this page
+                pageTotal = api
+                    .column(7, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return formataDinheiro(intVal(a) + intVal(b));
+                    }, 0);
+
+                // Update footer
+                $(api.column(7).footer()).html(
+                    pageTotal
+                );
+
+                $('.total_footer').trigger('mask.maskMoney');
+            }
+        });
+
+        // Apply the search
+        table.columns().every(function () {
+
+            var column = this;
+
+            var select = $('select', this.footer()).on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                        .search(val ? '^' + val + '$' : '', true, false)
+                        .draw();
+                });
+
+            column.data().unique().sort().each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>')
+            });
+
+        });
+
+        function formataDinheiro(int) {
+            var tmp = int + '';
+            tmp = tmp.replace(/([0-9]{2})$/g, ",$1");
+            if (tmp.length > 6)
+                tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+
+            return tmp;
+        }
+
+
+        $(".informar_entrega").click(function () {
+            var id = $(this).attr("data-id");
+            $("#form-mudar").prop('action', '@Url.Action("InformarPagamentoComissao", "Campanhas")/' + id);
+            $("#informar_entrega").modal();
+        });
+    });
+
+</script>
+
+<div class="modal fade" id="informar_entrega" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-mudar" }))
+            {
+
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    Tem certeza que a comissão foi paga?
+                </div>
+                <div class="modal-footer">
+
+                    <input class="btn btn-primary" type="submit" value="Enviar" />
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

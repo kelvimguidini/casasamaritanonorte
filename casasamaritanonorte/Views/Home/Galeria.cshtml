@@ -1,0 +1,87 @@
+﻿@model List<casasamaritanonorte.Models.Evento>
+@{
+    ViewBag.Title = "Galeria";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area">
+    <div class="ht__bradcaump__container">
+        <img src="~/Imagens/6.png" alt="bradcaump images">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Galeria</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Início</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <span class="breadcrumb-item active">Galeria</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- Start Our Gallery Area -->
+<div class="junior__gallery__area gallery-page-one gallery__masonry__activation gallery--3 bg-image--25 section-padding--lg">
+    <div class="container">
+
+
+        <!-- Start Single Gallery -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="gallery__menu">
+                    <button data-filter="*" class="is-checked">Todos</button>
+
+                    @foreach (casasamaritanonorte.Models.Evento evento in Model)
+                    {
+                        if (evento.Album != null)
+                        {
+                            <button data-filter=".@evento.ID">@evento.Titulo</button>
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row galler__wrap masonry__wrap mt--80">
+            @foreach (casasamaritanonorte.Models.Evento evento in Model)
+            {
+                if (evento.Album != null)
+                {
+            
+                    foreach (casasamaritanonorte.Models.Foto foto in evento.Album.Fotos)
+                    {
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12 gallery__item @evento.ID">
+                            <div class="gallery">
+                                <div class="gallery__thumb">
+                                    <a href="#">
+                                        <img src="~/Imagens/Uploads/Eventos/Albuns/@foto.Caminho" alt="Imagem da galeria">
+                                    </a>
+                                </div>
+                                <div class="gallery__hover__inner">
+                                    <div class="gallery__hover__action">
+                                        <ul class="gallery__zoom">
+                                            <li><a href="~/Imagens/Uploads/Eventos/Albuns/@foto.Caminho" data-lightbox="grportimg" data-title="@evento.Titulo"><i class="fa fa-search"></i></a></li>
+                                            <li><a href="@Url.Action("Details", "Evento", new { id = evento.ID })"><i class="fa fa-link"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+            }
+
+            <!-- End Single Gallery -->
+        </div>
+    </div>
+</div>
+<!-- End Our Gallery Area -->

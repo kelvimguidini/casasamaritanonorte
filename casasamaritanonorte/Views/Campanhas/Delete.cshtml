@@ -1,0 +1,26 @@
+﻿@model casasamaritanonorte.ViewModels.CampanhaViewModels
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Deseja realmente excluir esse registro?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">Ao clicar em "Apagar Registro" a campanha será apagada.</div>
+        <div class="modal-footer">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <input class="btn btn-primary" type="submit" value="Apagar Registro" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+﻿@model casasamaritanonorte.ViewModels.CampanhaViewModels
+
+@{
+    ViewBag.Title = "Detalhes da campanha";
+}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Orientações</h6>
+                </div>
+                <div class="card-body">
+                    O texto e o vídeo abaixo foi planejado com a intenção de levar o doador/comprador a clicar no link que consta no texto. O link levará para a página de pagamento. Quando for pago, será creditado para você a comissão o acordo.
+                    <br />
+                    Siga os passos a seguir para publicar em suas redes sociais:
+                    <ul>
+                        <li>Baixe o vídeo do card Vídeo para o seu computador <b>OBS:</b> <span>o link do vídeo também está sendo disponibilizado.</span></li>
+                        <li>Copie o texto no card Descrição (é importante que o link seja copiado)</li>
+                        <li>Publique o vídeo com o texto em sua rede social</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Detalhes</h6>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <td>
+                                @Model.Nome
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Imagens/Uploads/Campanhas/@Model.fotoStr" alt="Produto imagem" />
+                            </td>
+                        </tr>
+
+                        @if (!Model.Doacao)
+                        {
+                            <tr>
+                                <td>
+                                    @Model.Valor
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Venda
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>
+                                    Doação
+                                </td>
+                            </tr>
+                        }
+                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                        {
+                            <tr>
+                                <td>
+                                    @(Model.TelaInicial ? "E " : "Não e")xibir essa campanha na tela inicial do sistema
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @(Model.Ativo? "Ativo" : "Inativo")
+                                </td>
+                            </tr>
+
+                        }
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Vídeo</h6>
+                </div>
+                <div class="card-body">
+                    <video controls="controls">
+                        <source src="~/Imagens/Uploads/Campanhas/@Model.VideoStr">
+                    </video>
+                    <p></p>
+                </div>
+            </div>
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Descrição</h6>
+                </div>
+                <div class="card-body">
+                    <h3></h3>
+                    <p>@Model.Descricao</p>
+                    <p>@Model.Mensagem</p>
+
+                    <p>Entre no link e participe dessa campanha</p>
+
+                    @if (ViewBag.Captador != null)
+                    {
+                        @Url.Action("Doacao", "Campanhas", new { Id = Model.ID, IdCaptador = ViewBag.Captador.ID }, protocol: Request.Url.Scheme)
+                    }
+                    else
+                    {
+                        @Url.Action("Doacao", "Campanhas", new { Id = Model.ID }, protocol: Request.Url.Scheme)
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

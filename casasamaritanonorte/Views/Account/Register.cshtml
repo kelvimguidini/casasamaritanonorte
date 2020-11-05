@@ -1,0 +1,70 @@
+﻿@model casasamaritanonorte.ViewModels.RegisterViewModel
+@{
+    ViewBag.Title = "Cadastro novo administrador";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+    </div>
+    <div class="row">
+
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "col-lg-12", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="col-lg-8">
+
+                <!-- Basic Card Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informações Gerais</h6>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+
+                        <hr />
+
+                        <button type="submit" class="btn btn-success btn-icon-split">
+
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Salvar</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+
+            </div>
+        }
+
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

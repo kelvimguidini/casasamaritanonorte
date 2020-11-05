@@ -1,0 +1,299 @@
+﻿@model  casasamaritanonorte.ViewModels.CampanhaViewModels
+@{
+    ViewBag.Title = "Início";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- Strat Slider Area -->
+<div class="slide__carosel owl-carousel owl-theme">
+    <div class="slider__area bg-pngimage--1 d-flex fullscreen justify-content-start align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="slider__activation">
+                        <!-- Start Single Slide -->
+                        <div class="slide">
+                            <div class="slide__inner">
+                                <h1>Repouso e bem estar</h1>
+                                <div class="slider__text">
+                                    <h2>Acolhimento</h2>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Single Slide -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="slider__area bg-pngimage--1 d-flex fullscreen justify-content-start align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <div class="slider__activation">
+                        <!-- Start Single Slide -->
+                        <div class="slide">
+                            <div class="slide__inner">
+                                <h1>Repouso e bem estar</h1>
+                                <div class="slider__text">
+                                    <h2>Acolhimento</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Slide -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+<!-- End Slider Area -->
+<!-- Start Welcame Area -->
+<section class="junior__welcome__area welcome--2 section-padding--lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12">
+                <div class="section__title text-center">
+                    <h2 class="title__line">Bem vindo à casa de repouso</h2>
+                    <p>Em vez de esperar uma data comemorativa, que tal ligar para os parentes e marcar uma confraternização em família? Estar próximo de quem a gente ama, sendo idoso ou não, é o melhor combustível para a vida. Aproveite cada momento com essas pessoas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row jn__welcome__wrapper align-items-center">
+
+
+            @if (Model != null && Model.VideoStr != "")
+            {
+                <div class="col-md-12 col-lg-6 col-sm-12">
+                    <div class="jnr__Welcome__thumb">
+                        <div id="fb-root"></div>
+                        <video width="650" controls="controls">
+
+                            <source src="~/Imagens/Uploads/Campanhas/@Model.VideoStr" >
+                        </video>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 md-mt-40 sm-mt-40">
+                    <div class="welcome__juniro__inner">
+                        <h3>@Model.Nome</h3>
+                        <p>@Model.Descricao</p>
+                        <p>@Model.Mensagem</p>
+
+                        <div class="wel__btn">
+                            <a class="dcare__btn" href="@Url.Action("Doacao", "Campanhas", new { id = Model.ID })">Colabore com esse projeto</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12 col-lg-6 col-sm-12">
+                    <div class="jnr__Welcome__thumb">
+                        <div id="fb-root"></div>
+                        <script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+
+                        <!-- Your embedded video player code -->
+                        <div class="fb-video" data-href="https://www.facebook.com/casaderepousobomsamaritanonorte/videos/989822987818999/" data-width="650" data-show-text="false">
+                            <div class="fb-xfbml-parse-ignore">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 md-mt-40 sm-mt-40">
+                    <div class="welcome__juniro__inner">
+                        <h3>Quem somos</h3>
+                        <p>Segue aqui um texto rapido de quem somos, nossa missão etc. produzir o texto, sunt in culpaoc caecacupidatat non proident, sunt in culpa qui officia destotarem aperiam, eaque ipsa quae ab illo voluptatemseamet occaecat proident, sunt in culpaoc caecacupidatat non proident, destotarem</p>
+                        <p>Segue aqui um texto rapido de quem somos, nossa missão etc. produzir o texto, sunt in culpaoc caecacupidatat non proident, sunt in culpa qui officia destotarem aperiam, eaque ipsa quae ab illo voluptatemseamet occaecat proident, sunt in culpaoc caecacupidatat non proident, destotarem</p>
+
+                        <div class="wel__btn">
+                            <a class="dcare__btn" href="@Url.Action("Doacao", "Campanhas")">Colabore com esse projeto</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+<!-- End Welcame Area -->
+<!-- Start Choose Us Area -->
+<section class="dcare__choose__us__area section-padding--lg bg--white bg-image--9">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12">
+                <div class="section__title text-center">
+                    <h2 class="title__line">Oferecemos aos internos</h2>
+                    <p>Devemos trabalhar no objetivo de obter um melhor estilo e qualidade de vida aos idosos</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt--40">
+            <!-- Start Single Choose Option -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="dacre__choose__option">
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Festas de aniversário</a></h4>
+                            <p>A cada 3 meses fazemos uma festa para comemorar os aniversariantes do trimestre</p>
+                        </div>
+                        <div class="choose__icon">
+                            <i class="fa fa-birthday-cake fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Cuidadores 24 horas</a></h4>
+                            <p>Equipe atenciosa e preparada para dar apoio nessa faze da vida</p>
+                        </div>
+                        <div class="choose__icon">
+                            <i class="fa fa-id-card fa-2x text-primary" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Repouso</a></h4>
+                            <p>A velhice é um estado de repouso e de liberdade no que respeita aos sentidos</p>
+                        </div>
+                        <div class="choose__icon">
+                            <i class="fa fa-bell-slash fa-2x text-success" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                </div>
+            </div>
+            <!-- End Single Choose Option -->
+            <!-- Start Single Choose Option -->
+            <div class="col-lg-4 col-md-6 col-sm-12 d-block d-lg-block d-md-none">
+                <div class="dacre__choose__option">
+                    <div class="choose__big__img">
+                        <img src="~/Imagens/capaVideo.jpg" alt="choose images">
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Choose Option -->
+            <!-- Start Single Choose Option -->
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="dacre__choose__option text__align--left">
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__icon">
+                            <i class="fa fa-heart-o fa-2x text-danger"></i>
+                        </div>
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Cultos e devocionais diários</a></h4>
+                            <p>Todos os dias reunimos os internos que tem interesse para meditar e orar</p>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__icon">
+                            <i class="fa fa-cutlery fa-2x text-success" aria-hidden="true"></i>
+                        </div>
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Alimentação balanceada</a></h4>
+                            <p>Servimos alimentação vegetariana de qualidade, balanceada com todos os nutrientes necessários para uma boa saúde</p>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                    <!-- Start Single Choose -->
+                    <div class="choose">
+                        <div class="choose__icon">
+                            <i class="fa fa-envira fa-2x text-info" aria-hidden="true"></i>
+                        </div>
+                        <div class="choose__inner">
+                            <h4><a href="@Url.Action("Index", "Evento")">Qualidade de vida</a></h4>
+                            <p>Todo o trabalho é para garantir que nossos iternos tenham a melhor qualidade de vida possível</p>
+                        </div>
+                    </div>
+                    <!-- End Single Choose -->
+                </div>
+            </div>
+            <!-- End Single Choose Option -->
+        </div>
+    </div>
+</section>
+<!-- End Choose Us Area -->
+<!-- Start Counter Up Area -->
+<section class="dcare__counterup__area section-padding--lg bg-image--6">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="counterup__wrapper d-flex flex-wrap flex-lg-nowrap flex-md-nowrap justify-content-between">
+                    <!-- Start Single Fact -->
+                    <div class="funfact">
+                        <div class="fact__icon">
+                            <i class="fa fa-address-book-o fa-4x"></i>
+                        </div>
+                        <div class="fact__count">
+                            <span class="count">45</span>
+                        </div>
+                        <div class="fact__title">
+                            <h2>Internos</h2>
+                        </div>
+                    </div>
+                    <!-- End Single Fact -->
+                    <!-- Start Single Fact -->
+                    <div class="funfact">
+                        <div class="fact__icon">
+                            <i class="fa fa-users fa-4x"></i>
+                        </div>
+                        <div class="fact__count">
+                            <span class="count color--2">10</span>
+                        </div>
+                        <div class="fact__title">
+                            <h2>Funcionários</h2>
+                        </div>
+                    </div>
+                    <!-- End Single Fact -->
+                    <!-- Start Single Fact -->
+                    <div class="funfact">
+                        <div class="fact__icon">
+                            <i class="fa fa-bed fa-4x"></i>
+                        </div>
+                        <div class="fact__count ">
+                            <span class="count color--3">20</span>
+                        </div>
+                        <div class="fact__title">
+                            <h2>Quartos</h2>
+                        </div>
+                    </div>
+                    <!-- End Single Fact -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Counter Up Area -->
+
+<script>
+    /*============= Home Slider With Carosel ==============*/
+
+    if ($('.slide__carosel').length) {
+        $('.slide__carosel').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: true,
+            autoplay: false,
+            navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+            autoplayTimeout: 10000,
+            items: 1,
+            dots: false,
+            lazyLoad: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+            }
+        });
+    }
+</script>

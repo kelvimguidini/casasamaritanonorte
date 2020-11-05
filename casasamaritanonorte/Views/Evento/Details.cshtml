@@ -1,0 +1,154 @@
+﻿@model casasamaritanonorte.ViewModels.EventoViewModels
+@{
+    ViewBag.Title = Model.Titulo;
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area">
+    <div class="ht__bradcaump__container">
+        <img src="~/Imagens/6.png" alt="bradcaump images">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Eventos</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Início</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Evento")">Eventos</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <span class="breadcrumb-item active">Detalhes</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- Start Class Details -->
+<section class="page-event-details bg--white section-padding--lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="event-content-wrapper">
+
+                    <div class="event-section">
+                        <div class="enent__thumb">
+                            <img src="~/Imagens/Uploads/Eventos/@Model.CaminhoCapa" alt="@Model.Titulo">
+                            <div class="box-timer">
+                                <div class="countbox timer-grid">
+                                    <div>
+                                        <span class="dcare-count days">
+                                            <span class="count-inner">
+                                                <span class="time-count">@Model.DataEvento.Day.ToString()</span> @*<p>Days</p>*@
+                                            </span>
+
+                                        </span>
+
+                                        <span class="dcare-count hour">
+                                            <span class="count-inner">
+                                                <span class="time-count">@Model.DataEvento.Month.ToString()</span> @*<p>Hours</p>*@
+                                            </span>
+                                        </span>
+                                        <span class="dcare-count minutes">
+                                            <span class="count-inner">
+                                                <span class="time-count">@Model.DataEvento.Year.ToString()</span> @*<p>Minutes</p>*@
+                                            </span>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="event__inner">
+                            <span><i class="fa fa-calendar"></i>@Model.DataPublicacao.ToString("dd/MM/yyyy")</span>
+                            <h4>@Model.Titulo</h4>
+
+                            <blockquote>@Model.Caption</blockquote>
+                        </div>
+                    </div>
+
+                    <div class="event-section">
+                        @Html.Raw(HttpUtility.HtmlDecode(Model.Texto))
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- Start Sidebar -->
+            <div class="col-lg-3">
+                <div class="sidebar__widgets sidebar--right">
+
+                    <!-- Single Widget -->
+                    <div class="single__widget recent__post">
+                        <h4>Publicações recentes</h4>
+                        <ul>
+                            @{
+                                int i = 0;
+                            }
+                            @foreach (casasamaritanonorte.ViewModels.EventoViewModels evento in ViewBag.eventosVM)
+                            {
+                                if (i < 6 && evento.ID != Model.ID)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Details", "Evento", new { Id = evento.ID })"><img src="~/Imagens/Uploads/Eventos/@evento.CaminhoCapa" alt="post imagem"></a>
+                                        <div class="post__content">
+                                            <h6><a href="@Url.Action("Details", "Evento", new { Id = evento.ID })">@evento.Titulo</a></h6>
+                                            <span class="date"><i class="fa fa-calendar"></i>@evento.DataEvento.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                    </li>
+                                    {
+                                        i++;
+                                    }
+                                }
+
+                            }
+
+                        </ul>
+                    </div>
+                    <!-- End Widget -->
+
+                </div>
+            </div>
+            <!-- End Sidebar -->
+        </div>
+
+
+            @if (ViewBag.album != null)
+            {
+
+                <div class="junior__gallery__area gallery-page-one gallery__masonry__activation gallery--3 bg--white section-padding--lg">
+                    <div class="container">
+                        <div class="row galler__wrap masonry__wrap" style="position: relative; height: 1446.14px;">
+                            @foreach (casasamaritanonorte.Models.Foto foto in ViewBag.album.Fotos)
+                            {
+                                <!-- Start Single Gallery -->
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 gallery__item cat--2" style="position: absolute; left: 0%; top: 0px;">
+                                    <div class="gallery">
+                                        <div class="gallery__thumb">
+                                            <img src="~/Imagens/Uploads/Eventos/Albuns/@foto.Caminho" alt="Galeria de imagens">
+                                        </div>
+                                        <div class="gallery__hover__inner">
+                                            <div class="gallery__hover__action">
+                                                <ul class="gallery__zoom">
+                                                    <li><a href="~/Imagens/Uploads/Eventos/Albuns/@foto.Caminho" data-lightbox="grportimg"><i class="fa fa-search"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Single Gallery -->
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+    </div>
+</section>
+<!-- End Class Details -->

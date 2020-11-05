@@ -1,0 +1,136 @@
+﻿@model casasamaritanonorte.ViewModels.ContatoViewModel
+@{
+    ViewBag.Title = "Contato";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area">
+    <div class="ht__bradcaump__container">
+        <img src="~/Imagens/6.png" alt="bradcaump images">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Contato</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Início</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <span class="breadcrumb-item active">Contato</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+
+<section class="page__contact bg--white section-padding--lg">
+    <div class="container">
+        <div class="row">
+            <!-- Start Single Address -->
+            <div class="col-md-6 col-sm-6 col-12 col-lg-4">
+                <div class="address location">
+                    <div class="ct__icon">
+                        <i class="fa fa-home"></i>
+                    </div>
+                    <div class="address__inner">
+                        <h2>Nosso endereço</h2>
+                        <p>Venha nos fazer uma visita</p>
+                        <ul>
+                            <li>Monte ALto <br>  Avenida principal, Vendinha</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Address -->
+            <!-- Start Single Address -->
+            <div class="col-md-6 col-sm-6 col-12 col-lg-4 xs-mt-60">
+                <div class="address phone">
+                    <div class="ct__icon">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="address__inner">
+                        <h2>Nossos números</h2>
+                        <p>Se tiver alguma dúvida, não exite em entrar em contato por um de nossos números</p>
+                        <ul>
+                            <li>João Domingos<a href="tell:+5561981925127">(61) 98192-5127</a></li>
+                            <li>Aldenice Xavier<a href="tell:+5561981925127">(61) 98192-5127</a></li>
+                            <li>Maraiza Rodrigues<a href="tell:+5561981925127">(61) 98192-5127</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Address -->
+            <!-- Start Single Address -->
+            <div class="col-md-6 col-sm-6 col-12 col-lg-4 md-mt-60 sm-mt-60">
+                <div class="address email">
+                    <div class="ct__icon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="address__inner">
+                        <h2>Endereços de E-mail</h2>
+                        <p>Outra opção de contato é atravez dos emails:</p>
+                        <ul>
+                            <li><a href="#">casaderepousoobomsamaritanonorte@email.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Single Address -->
+        </div>
+    </div>
+</section>
+
+<!-- Start Contact Form -->
+<section class="contact__box section-padding--lg bg-image--27">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12">
+                <div class="section__title text-center">
+                    <h2 class="title__line">Sinta-se a vontade para nos enviar uma mensagem</h2>
+                    <p>Ficaremos felizes em responder sua mensagem</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt--80">
+            <div class="col-lg-12">
+                <div class="contact-form-wrap">
+                    @if (@ViewBag.Mensagem != null)
+                    {
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Mensagem!</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Mensagem</div>
+                    }
+
+                    @using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="single-contact-form name">
+                            @Html.TextBoxFor(m => m.Nome, new { @placeholder = "Seu nome *" })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.Email, new { @placeholder = "E-mail *" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="single-contact-form subject">
+                            @Html.TextBoxFor(m => m.Assunto, new { @placeholder = "Assunto *" })
+                            @Html.ValidationMessageFor(model => model.Assunto, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="single-contact-form message">
+                            @Html.TextAreaFor(model => model.Mensagem, new { @placeholder = "Digite sua mensagem" })
+                            @Html.ValidationMessageFor(model => model.Assunto, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="contact-btn">
+                            <button type="submit" class="dcare__btn">Enviar</button>
+                        </div>
+                    }
+                </div>
+                <div class="form-output">
+                    <p class="form-messege"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Contact Form -->

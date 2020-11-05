@@ -1,0 +1,434 @@
+﻿@model casasamaritanonorte.ViewModels.PagamentoViewModels
+@{
+    ViewBag.Title = "Pagamento";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area">
+    <div class="ht__bradcaump__container">
+        <img src="~/Imagens/6.png" alt="bradcaump images">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Doação</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Início</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <span class="breadcrumb-item active">
+                                @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                                {
+                                    <text>
+                                        Pagamento
+                                    </text>
+                                }
+                                else
+                                {
+                                    <text>
+                                        Doação
+                                    </text>
+                                }
+                            </span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+
+<div class="cart-main-area section-padding--lg bg--white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ol-lg-12">
+                @using (Html.BeginForm("Doacao", "Campanhas", FormMethod.Post, new { @class = "col-lg-12", role = "form", id = "formulario" }))
+                {
+                    <div class="row" style="margin-bottom: 50px;">
+                        <div class="col-md-6 col-sm-12 ol-lg-6">
+                            @Html.AntiForgeryToken()
+
+                            <h3>Dados pessoais</h3>
+                            <div>
+                                @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(m => m.CPF, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.CPF, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CPF, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-md-2 col-sm-3 ol-lg-2" style="float:left; padding-left:0">
+                                @Html.LabelFor(m => m.DDD, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.DDD, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DDD, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-10 col-sm-9 ol-lg-10" style="float:left; padding-right:0">
+                                @Html.LabelFor(m => m.Telefone, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                        {
+                            <div class="col-md-6 col-sm-12 ol-lg-6">
+                                <h3>Endereço de entrega</h3>
+                                <hr />
+
+                                <div>
+                                    @Html.LabelFor(m => m.Cep, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Cep, new { @class = "form-control", id = "cep" })
+                                    @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.Logradouro, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Logradouro, new { @class = "form-control", id = "logradouro" })
+                                    @Html.ValidationMessageFor(model => model.Logradouro, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.Numero, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Numero, new { @class = "form-control", id = "numero" })
+                                    @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.Complemento, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control", id = "complemento" })
+                                    @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.Bairro, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Bairro, new { @class = "form-control", id = "Bairro" })
+                                    @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.Cidade, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control", id = "Bairro" })
+                                    @Html.ValidationMessageFor(model => model.Cidade, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(m => m.UF, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.UF, new SelectList(ViewBag.Ufs, "Value", "Text"), "Selecione o Estado", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.UF, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+
+
+                    <div class="table-content table-responsive">
+                        <table>
+                            <thead>
+                                <tr class="title-top">
+                                    <th class="product-thumbnail">Imagem</th>
+                                    <th class="product-name">Descrição</th>
+                                    <th class="product-price">Valor</th>
+                                    <th class="product-quantity">Quantidade</th>
+                                    <th class="product-frete">Frete</th>
+                                    <th class="product-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                                    {
+
+                                        <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/@Model.Campanha.fotoStr" alt="Produto imagem" /></a></td>
+                                        <td class="product-name"><a href="#">@Model.Campanha.Nome</a></td>
+                                        <td class="product-price">
+                                            <span class="amount">@Model.Campanha.Valor</span>
+                                            @Html.HiddenFor(m => m.Valor)
+                                        </td>
+                                        <td class="product-quantity">
+                                            @Html.EditorFor(m => m.Quantidade, new { @style = "background: #fff;" })
+                                            @Html.ValidationMessageFor(model => model.Quantidade, "", new { @class = "text-danger" })
+                                        </td>
+
+                                        <td class="product-frete">
+                                            <div id="div_frete" style="display:none; min-width:120px">
+                                                <input type="radio" id="pac" name="TipoEntrega" value="1" /> PAC <span id="valor_pac"></span> <span id="prazo_pac"></span>
+                                                <input type="radio" id="sedex" name="TipoEntrega" value="2" /> SEDEX <span id="valor_sedex"></span> <span id="prazo_sedex"></span>
+
+                                                <input type="hidden" id="h_prazo_pac" />
+                                                <input type="hidden" id="h_prazo_sedex" />
+                                                @Html.HiddenFor(m => m.Frete)
+                                                @Html.ValidationMessageFor(model => model.Frete, "", new { @class = "text-danger" })
+                                                @Html.HiddenFor(m => m.PrazoEntrega)
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal">
+                                            @Html.TextBoxFor(m => m.Total, new { @readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        if (Model.Campanha != null)
+                                        {
+                                            <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/@Model.Campanha.fotoStr" alt="Produto imagem" /></a></td>
+                                            <td class="product-name"><a href="#">@Model.Campanha.Nome</a></td>
+                                        }
+                                        else
+                                        {
+                                            <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/default.jpg" alt="Produto imagem" /></a></td>
+                                            <td class="product-name"><a href="#">Doação</a></td>
+                                        }
+
+                                        <td class="product-price">
+                                            @Html.TextBoxFor(m => m.Valor, new { @style = "background: #fff;" })
+                                            @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="product-quantity">
+                                            @Html.TextBoxFor(m => m.Quantidade, new { @readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.Quantidade, "", new { @class = "text-danger" })
+                                        </td>
+                                        <td class="product-frete"> - </td>
+                                        <td class="product-subtotal">
+                                            @Html.TextBoxFor(m => m.Total, new { @readonly = "true" })
+                                            @Html.ValidationMessageFor(model => model.Total, "", new { @class = "text-danger" })
+                                        </td>
+                                    }
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="cartbox__btn">
+                        <div class="pull-right">
+                            <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                                <li><a onClick="$('#formulario').submit();">Avançar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+
+<script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js">
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        @if (ViewBag.code != null)
+        {
+            <text>
+                //Insira o código de checkout gerado no Passo 1
+                var code = "@ViewBag.code";
+                var callback = {
+                    success: function(transactionCode) {
+                        //Insira os comandos para quando o usuário finalizar o pagamento.
+                        location.href= "@Url.Action("DoacaoRetorno", "Campanhas", new { id = ViewBag.PagamentoId }, protocol: Request.Url.Scheme)?transactionCode=" + transactionCode;
+
+                        console.log("Compra feita com sucesso, código de transação: " + transactionCode);
+                    },
+                    abort: function() {
+                        //Insira os comandos para quando o usuário abandonar a tela de pagamento.
+                        alert("Abortado: Ops, alguma coisa deu errado, mas não se preocupe nada foi cobrado ainda.");
+                    }
+                };
+                //Chamada do lightbox passando o código de checkout e os comandos para o callback
+                var isOpenLightbox = PagSeguroLightbox(code, callback);
+                // Redireciona o comprador, caso o navegador não tenha suporte ao Lightbox
+                if (!isOpenLightbox)
+                {
+                    location.href = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+                    //location.href = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+                }
+            </text>
+
+        }
+
+        @if (Model.Campanha != null && Model.Campanha.Valor > 0)
+        {
+            <text>
+                $("#Valor").val(@Model.Campanha.Valor)
+            </text>
+        }
+
+
+        $('#CPF').mask('999.999.999-99');
+        $('#DDD').mask("(99)");
+        $('#Telefone').mask('99999-9999');
+
+        $('#cep').mask('99.999-999');
+
+
+        $('#Valor').maskMoney({
+            decimal: ",",
+            thousands: ".",
+            allowZero: true
+        });
+
+
+        $('#Total').maskMoney({
+            decimal: ",",
+            thousands: ".",
+            allowZero: true
+        });
+
+        $('#Total').trigger('mask.maskMoney');
+        $('#Valor').trigger('mask.maskMoney');
+
+        $("#Valor").focusout(function () { Totalizar() });
+        $("#Quantidade").focusout(function () { Totalizar() });
+
+        function selecionaFrete() {
+            if ($("#sedex").prop("checked")) {
+                $("#Frete").val($("#valor_sedex").text());
+                $("#PrazoEntrega").val($("#h_prazo_sedex").text());
+            } else {
+                $("#Frete").val($("#valor_pac").text());
+                $("#PrazoEntrega").val($("#h_prazo_pac").text());
+            }
+            
+        }
+
+        function Totalizar() {
+
+            selecionaFrete();
+
+            var valor = parseFloat($("#Valor").val() != '' ? $("#Valor").val().replace('R$ ', '').replace('.', '').replace(',', '.') : 0);
+            var quantidade = parseInt($('#Quantidade').val() != '' ? $('#Quantidade').val() : 0);
+
+            var frete = parseFloat($('#Frete').val() != '' && $('#Frete').val() != undefined ? $('#Frete').val().replace('R$ ', '').replace('.', '').replace(',', '.') : 0);
+
+            var total = (valor * quantidade) + frete;
+            $('#Total').val(total.toString().replace('.', ','));
+
+            $('#Total').trigger('mask.maskMoney');
+        }
+
+        $('input[name="TipoEntrega"]').on("change", function () {
+            Totalizar();
+        });
+
+        $('#formulario').submit(function () {
+            var valor = $("#Valor").val() != '' ? $("#Valor").val().replace('R$ ', '').replace('.', '') : "0,00";
+            var total = $("#Total").val() != '' ? $("#Total").val().replace('R$ ', '').replace('.', '') : "0,00";
+
+            selecionaFrete()
+
+            $('#Valor').val(valor);
+            $('#Total').val(total);
+         });
+
+        Totalizar();
+
+        @if (Model.Campanha != null)
+        {
+            <text>
+               $("#cep").focusout(function () {
+            //Início do Comando AJAX
+            $.ajax({
+                //O campo URL diz o caminho de onde virá os dados
+                //É importante concatenar o valor digitado no CEP
+                url: 'https://viacep.com.br/ws/' + $(this).val().replace('.', '').replace('-', '') + '/json/unicode/',
+                //Aqui você deve preencher o tipo de dados que será lido,
+                //no caso, estamos lendo JSON.
+                dataType: 'json',
+                //SUCESS é referente a função que será executada caso
+                //ele consiga ler a fonte de dados com sucesso.
+                //O parâmetro dentro da função se refere ao nome da variável
+                //que você vai dar para ler esse objeto.
+                success: function (resposta) {
+                    //Agora basta definir os valores que você deseja preencher
+                    //automaticamente nos campos acima.
+                    $("#Logradouro").val(resposta.logradouro);
+                    $("#complemento").val(resposta.complemento);
+                    $("#Bairro").val(resposta.bairro);
+                    $("#Cidade").val(resposta.localidade);
+                    $("#UF").val(resposta.uf);
+                    //Vamos incluir para que o Número seja focado automaticamente
+                    //melhorando a experiência do usuário
+                    $("#numero").focus();
+                }
+            });
+
+
+            $.ajax({
+                //O campo URL diz o caminho de onde virá os dados
+                //É importante concatenar o valor digitado no CE
+                url: '@Url.Action("CalculaFrete", "Campanhas")',
+                type: "POST",
+                //Aqui você deve preencher o tipo de dados que será lido,
+                //no caso, estamos lendo JSON.
+                dataType: 'json',
+                data: { "cep": $(this).val().replace('.', '').replace('-', ''), "campanhaStr": @Html.Raw(Json.Encode(@Model.Campanha))},
+                //SUCESS é referente a função que será executada caso
+                //ele consiga ler a fonte de dados com sucesso.
+                //O parâmetro dentro da função se refere ao nome da variável
+                //que você vai dar para ler esse objeto.
+                success: function (data) {
+                    var resposta = $.parseJSON(data);
+                    if (resposta.erro != undefined) {
+                        alert(resposta.mensagem);
+                    } else {
+                        var pac = $.parseJSON(resposta.pac);
+                        var sedex = $.parseJSON(resposta.sedex);
+
+                        $('#prazo_pac').text("Entrega em " + pac.prazo + " dias");
+                        $('#h_prazo_pac').text(pac.prazo);
+                        
+                        $('#prazo_sedex').text("Entrega em " + sedex.prazo + " dias");
+                        $('#h_prazo_sedex').text(sedex.prazo);
+
+                        $('#valor_pac').text(pac.valor);
+                        $('#valor_sedex').text(sedex.valor);
+
+                        $("#pac").prop("checked", true);
+
+                        if ($('#valor_pac').val() != undefined) {
+                            $('#valor_pac').maskMoney({
+                                prefix:"R$ ",
+                                decimal: ",",
+                                thousands: ".",
+                                allowZero: true
+                            });
+
+                            $('#valor_pac').trigger('mask.maskMoney');
+                        }
+
+                        if ($('#valor_sedex').val() != undefined) {
+                            $('#valor_sedex').maskMoney({
+                                prefix:"R$ ",
+                                decimal: ",",
+                                thousands: ".",
+                                allowZero: true
+                            });
+
+                            $('#valor_sedex').trigger('mask.maskMoney');
+                        }
+
+                        $('#div_frete').show();
+                        selecionaFrete()
+                        Totalizar();
+                    }
+
+
+                }
+            });
+        });
+            </text>
+        }
+
+
+    });
+</script>

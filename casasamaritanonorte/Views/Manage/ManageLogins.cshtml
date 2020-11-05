@@ -1,0 +1,112 @@
+﻿@model casasamaritanonorte.ViewModels.ManageLoginsViewModel
+@using Microsoft.Owin.Security
+@{
+    ViewBag.Title = "Gerenciar seus logins externos";
+}
+
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Login Externo</h6>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.StatusMessage != "")
+                    {
+                        <div class="card mb-4 py-3 border-bottom-success">
+                            <div class="card-body">
+                                @ViewBag.StatusMessage
+                            </div>
+                        </div>
+                    }
+                    
+
+
+                    @{
+                        var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                        if (loginProviders.Count() == 0)
+                        {
+                            <div class="card-body">
+                                Existe algum erro na validação do login com facebook.
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.CurrentLogins.Count > 0)
+                            {
+                                <h4>Logins registrados</h4>
+                                <table class="table">
+                                    <tbody>
+                                        @foreach (var account in Model.CurrentLogins)
+                                        {
+                                            <tr>
+                                                <td><span class="h5 mb-0 font-weight-bold text-gray-800">@account.LoginProvider</span></td>
+                                                <td>
+                                                    @if (ViewBag.ShowRemoveButton)
+                                                    {
+                                                        using (Html.BeginForm("RemoveLogin", "Manage"))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            <div>
+                                                                @Html.Hidden("loginProvider", account.LoginProvider)
+                                                                @Html.Hidden("providerKey", account.ProviderKey)
+                                                                <button type="submit" class="btn btn-danger btn-icon-split" title="Remova este login @account.LoginProvider de sua conta">
+                                                                    <span class="icon text-white-50">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </span>
+                                                                    <span class="text">Remover</span>
+                                                                </button>
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @: &nbsp;
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            if (Model.OtherLogins.Count > 0)
+                            {
+                                using (Html.BeginForm("LinkLogin", "Manage"))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div id="socialLoginList">
+                                        <p>
+                                            @foreach (AuthenticationDescription p in Model.OtherLogins)
+                                            {
+                                                <button type="submit" class="btn btn-facebook btn-block" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Efetue login usando sua conta @p.Caption"><i class="fab fa-facebook-f fa-fw"></i>@p.AuthenticationType</button>
+                                            }
+                                        </p>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4">
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->

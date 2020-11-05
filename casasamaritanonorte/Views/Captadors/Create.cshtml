@@ -1,0 +1,186 @@
+﻿@model casasamaritanonorte.ViewModels.CaptadorViewModels
+@{
+    ViewBag.Title = "Cadastrar Novo Captador";
+}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+    </div>
+    <div class="row">
+
+        @using (Html.BeginForm("Create", "Captadors", FormMethod.Post, new { @class = "col-lg-12", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="col-lg-8">
+
+                <!-- Basic Card Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informações Gerais</h6>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div>
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.CPF, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CPF, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr />
+
+                        <h5>Como Participará</h5>
+
+                        <div>
+                            @Html.CheckBoxFor(model => model.Multirao, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.Multirao, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.CheckBoxFor(model => model.Integral, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(model => model.Integral, htmlAttributes: new { @class = "control-label" })
+                        </div>
+
+
+                        <hr />
+
+                        <h5>Dados da conta bancária</h5>
+
+
+                        <div>
+                            @Html.LabelFor(model => model.Banco, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Banco, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Banco, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+
+                            @Html.LabelFor(model => model.Agencia, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Agencia, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Agencia, "", new { @class = "text-danger" })
+                        </div>
+
+                        <br />
+                        <h6>Tipo de conta</h6>
+
+
+                        <div>
+                            @Html.RadioButtonFor(model => model.tipoConta, 1, new { id = "rbCorrente" })
+                            @Html.Label("rbCorrente", "Corrente", htmlAttributes: new { @class = "control-label" })
+                            @Html.RadioButtonFor(model => model.tipoConta, 2, new { id = "rbPoupanca" })
+                            @Html.Label("rbPoupanca", "Poupança", htmlAttributes: new { @class = "control-label" })
+
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Conta, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Conta, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <hr />
+
+                        <button type="submit" class="btn btn-success btn-icon-split">
+
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Salvar</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+
+            </div>
+        }
+
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        $('#DataNascimento').datepicker({
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            nextText: 'Proximo',
+            prevText: 'Anterior'
+        });
+        $('#DataNascimento').mask('99/99/9999');
+
+        $('#CPF').mask('999.999.999-99');
+
+        $('#Telefone').mask('(99) 99999-9999');
+
+        $('#Agencia').mask('9999-9');
+        
+        $('form').submit(function (e) {
+            e.preventDefault();
+            if ($("input:checked").length == 0) {
+                alert('Selecione pelo menos uma forma de participação');
+                $("#validarParticipacao").dialog();
+                return false;
+            }
+            (this).submit();
+            return;
+        });
+    });
+
+</script>
+
+
+<div class="modal fade" id="validarParticipacao" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Validação</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione pelo menos uma forma de participação</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

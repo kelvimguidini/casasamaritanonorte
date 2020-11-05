@@ -1,0 +1,204 @@
+﻿@model casasamaritanonorte.ViewModels.PagamentoViewModels
+@{
+    /**/
+
+    ViewBag.Title = "Obrigado";
+    Layout = "~/Views/Shared/_LayoutSite.cshtml";
+}
+
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area">
+    <div class="ht__bradcaump__container">
+        <img src="~/Imagens/6.png" alt="bradcaump images">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcaump__inner text-center">
+                        <h2 class="bradcaump-title">Doação</h2>
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Início</a>
+                            <span class="brd-separetor"><img src="~/Imagens/brad.png" alt="separator images"></span>
+                            <span class="breadcrumb-item active">
+                                Confirmação de Pagamento
+                            </span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cart-main-area section-padding--lg bg--white">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12 ol-lg-12">
+                @if (@ViewBag.Mensagem != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Mensagem</div>
+                }
+                else if (Model.PrimeiraVisualizacao)
+                {
+                    if (@ViewBag.Status == "Pago")
+                    {
+                        <div class="alert alert-success">
+                            Seu pagamento foi recebido com sucesso!<br />
+                            @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                            {
+                                <text>
+                                    O prazo de entrega é de @Model.PrazoEntrega dias a contar de hoje.<br />
+                                    <b>Guarde esse link para acompanhar seu pedido</b>
+                                </text>
+                            }
+                        </div>
+                    }
+                    <div class="alert alert-success">
+                        Seu pagamento está sendo processado, Atualmente o status é: @ViewBag.Status <br />
+                        @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                        {
+                            <text>O prazo de entrega é de @Model.PrazoEntrega dias a contar da confirmação do pagamento.</text><br />
+                        }
+                        <b>Guarde esse link para acompanhar seu pedido/pagamento</b>
+                    </div>
+                }
+
+                <!-- End Bradcaump area -->
+
+
+
+
+                <div class="table-content table-responsive">
+                    <h3>Pagamento</h3>
+                    <table>
+                        <thead>
+                            <tr class="title-top">
+                                <th class="product-thumbnail">Imagem</th>
+                                <th class="product-name">Descrição</th>
+                                <th class="product-price">Valor</th>
+                                <th class="product-quantity">Quantidade</th>
+                                <th class="product-frete">Frete</th>
+                                <th class="product-subtotal">Total</th>
+                                <th class="product-subtotal">Data</th>
+                                <th class="product-subtotal">Situação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (Model.Campanha != null && !Model.Campanha.Doacao)
+                                {
+                                    <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/@Model.Campanha.fotoStr" alt="Produto imagem" /></a></td>
+                                    <td class="product-name"><a href="#">@Model.Campanha.Nome</a></td>
+                                    <td class="product-price">
+                                        <span class="amount">@Model.Valor</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        @Model.Quantidade
+                                    </td>
+
+                                    <td class="product-frete">
+                                        @Model.Frete
+                                        <span id="prazo"></span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    if (Model.Campanha != null)
+                                    {
+                                        <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/@Model.Campanha.fotoStr" alt="Produto imagem" /></a></td>
+                                        <td class="product-name"><a href="#">@Model.Campanha.Nome</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="product-thumbnail"><a href="#"><img src="~/Imagens/Uploads/Campanhas/default.jpg" alt="Produto imagem" /></a></td>
+                                        <td class="product-name"><a href="#">Doação</a></td>
+                                    }
+
+                                    <td class="product-price">
+                                        <span class="amount">@Model.Valor</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        @Model.Quantidade
+                                    </td>
+                                    <td class="product-frete"> - </td>
+
+                                }
+                                <td class="product-subtotal">
+                                    @Model.Total
+                                </td>
+                                <td class="product-subtotal">
+                                    @Model.Data.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="product-name">
+                                    @ViewBag.Status
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            @if (Model.Campanha != null && !Model.Campanha.Doacao)
+            {
+                <div class="col-md-12 col-sm-12 ol-lg-12">
+
+                    <div class="table-content table-responsive">
+                        <h3>Entrega</h3>
+                        <table>
+                            <thead>
+                                <tr class="title-top">
+                                    <th class="product-thumbnail">Prazo</th>
+                                    <th class="product-name">Data</th>
+                                    <th class="product-price">Endereço</th>
+                                    <th class="product-quantity">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td class="product-thumbnail">@Model.PrazoEntrega dias</td>
+                                    <td class="product-name">@Model.Data.AddDays(Model.PrazoEntrega).ToString("dd/MM/yyyy");</td>
+
+                                    <td class="product-price">
+
+                                        <div class="address__inner">
+
+                                            <ul>
+                                                <li>@Model.Cep <br>  @Model.Logradouro @Model.Numero, <br> @Model.Bairro, @Model.Cidade-@Model.UF</li>
+                                                <li>@Model.Complemento</li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                    <td class="product-quantity">
+                                        @switch (ViewBag.Status)
+                                        {
+                                            case "Pago":
+                                                if (Model.SituacaoEntrega == null || Model.SituacaoEntrega == "")
+                                                {
+                                                    <text>Separando Para Envio</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>@Model.SituacaoEntrega</text>
+                                                }
+                                                break;
+                                            default:
+                                                <text>Aguardando Pagamento</text>
+                                                break;
+                                        }
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

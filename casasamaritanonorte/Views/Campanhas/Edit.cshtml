@@ -1,0 +1,208 @@
+﻿@model casasamaritanonorte.ViewModels.CampanhaViewModels
+@{
+    ViewBag.Title = "Editar Campanha";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+    </div>
+    <div class="row">
+
+
+
+
+        <div class="col-lg-8">
+            @using (Html.BeginForm("Edit", "Campanhas", FormMethod.Post, new { @class = "col-lg-12", role = "form", enctype = "multipart/form-data", id = "formulario" }))
+            {
+                @Html.AntiForgeryToken()
+                <!-- Basic Card Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informações Gerais</h6>
+                    </div>
+                    <div class="card-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                        <div>
+                            @Html.LabelFor(m => m.Nome, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.Mensagem, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.Mensagem, new { @class = "form-control text-box single-line" })
+                            @Html.ValidationMessageFor(model => model.Mensagem, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            <span>Obs: Para não alterar a foto basta deixar esse campo vazio.</span>
+                            @Html.LabelFor(model => model.Video, htmlAttributes: new { @class = "control-label" })
+                            <input type="file" id="fileUpload" class="form-control" name="Video" />
+                            @*@Html.EditorFor(model => model.Video, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.Video, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            <span>Obs: Para não alterar o vídeo basta deixar esse campo vazio.</span>
+                            @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label" })
+                            <input type="file" id="fileUpload" class="form-control" name="Foto" />
+                            @*@Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.CheckBoxFor(model => model.TelaInicial) @Html.LabelFor(m => m.TelaInicial, new { @class = "control-label" })
+                        </div>
+                        <div>
+                            @Html.CheckBoxFor(model => model.Ativo) @Html.LabelFor(m => m.Ativo, new { @class = "control-label" })
+                        </div>
+
+                        <hr />
+
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Informações do produto</h6>
+                        </div>
+                        <div>
+                            @Html.CheckBoxFor(model => model.Doacao) @Html.LabelFor(m => m.Doacao, new { @class = "control-label" })
+                        </div>
+
+                        <div class="row" id="venda">
+                            <div class="col-lg-6">
+                                @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                @Html.LabelFor(m => m.Peso, new { @class = "control-label" })
+                                @Html.EditorFor(m => m.Peso, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Peso, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                @Html.LabelFor(model => model.Altura, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Altura, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Altura, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                @Html.LabelFor(model => model.Largura, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Largura, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Largura, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                @Html.LabelFor(model => model.Diametro, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Diametro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Diametro, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-3">
+                                @Html.LabelFor(model => model.Comprimento, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Comprimento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Comprimento, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <hr />
+
+                        <a href="@Url.Action("Index", "Campanhas")" class="btn btn-info btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-arrow-left"></i>
+                            </span>
+                            <span class="text">Voltar</span>
+
+                        </a>
+
+                        <button type="submit" class="btn btn-success btn-icon-split">
+
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Salvar</span>
+                        </button>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        <div class="col-lg-4">
+
+            <!-- Basic Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Vídeo</h6>
+                </div>
+                <div class="card-body">
+                    <video controls="controls">
+                        <source src="~/Imagens/Uploads/Campanhas/@Model.VideoStr">
+                        @Html.HiddenFor(model => model.VideoStr)
+                    </video>
+                    <p></p>
+                </div>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Imagem</h6>
+                </div>
+                <div class="card-body">
+                    <img src="~/Imagens/Uploads/Campanhas/@Model.fotoStr" alt="Produto imagem" />
+                    @Html.HiddenFor(model => model.fotoStr)
+                    <p></p>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+
+        $('#Peso').mask('9.999');
+
+        $('#Valor').maskMoney({
+            //prefix: "R$ ",
+            decimal: ",",
+            thousands: ".",
+            allowZero: true
+        });
+
+        $('#Valor').trigger('mask.maskMoney');
+
+        @if (Model.Doacao) {
+            <Text>
+                $("#venda").hide();
+            </Text>
+        }
+
+        $('#Doacao').click(function () {
+            $("#venda").toggle();
+        });
+
+        $('#formulario').submit(function () {
+            var valor = $("#Valor").val() != '' ? $("#Valor").val().replace('R$ ', '').replace('.', '') : null;
+            var peso = $("#Peso").val() != '' ? $("#Peso").val().length <= 2 ? $("#Peso").val().replace('.', '') : $("#Peso").val().replace('.', '') : "1";
+
+            $('#Valor').val(valor);
+            $('#Peso').val(peso);
+            return true;
+        });
+    });
+</script>

@@ -1,0 +1,63 @@
+﻿@model casasamaritanonorte.ViewModels.IndexViewModel
+@{
+    ViewBag.Title = "Gerenciar Logins Externos";
+}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+    </div>
+    <div class="row">
+
+            <div class="col-lg-8">
+
+                <!-- Basic Card Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Mensagem</h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="card mb-4 py-3 border-bottom-success">
+                            <div class="card-body">
+                                @ViewBag.StatusMessage
+                            </div>
+                        </div>
+
+                        
+
+                        <h4>O que você deseja fazer agora?</h4>
+                        
+                        <hr />
+                        <a href="@Url.Action("ChangePassword", "Manage")" class="btn btn-info btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                            <span class="text">Alterar sua senha</span>
+                        </a>
+
+                        <hr />
+
+                        <a href="@Url.Action("ManageLogins", "Manage")" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fab fa-facebook-f fa-fw"></i>
+                            </span>
+                            <span class="text">Gerenciar Login Externo</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+
+            </div>
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- End of Main Content -->

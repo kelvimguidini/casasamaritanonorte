@@ -1,0 +1,216 @@
+﻿@model IEnumerable<casasamaritanonorte.ViewModels.EnvioViewModels>
+@{
+    ViewBag.Title = "Relatório de envios";
+}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">@ViewBag.Title</h1>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dados dos Envios</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Código da transação</th>
+                            <th>Produto</th>
+                            <th>Data da compra</th>
+                            <th>Status do pagamento</th>
+                            <th>Status da entrega</th>
+                            <th>Tipo entrega</th>
+                            <th>Endereço</th>
+                            <th>Cliente</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.CodigoTrasacao</td>
+                                <td><a href="@Url.Action("Details","Campanhas", new { id = item.IDCampanha})">@item.Campanha</a></td>
+                                <td>@item.DataCompra.ToString("dd/MM/yyyy")</td>
+                                <td>@item.StatusPagamento</td>
+                                <td>@item.SituacaoEntrega</td>
+                                <td>@(item.TipoEntrega == 1 ? "PAC" : "SEDEX")</td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true"
+                                            title="@item.Logradouro, @item.Numero<br />@item.Bairro<br />@item.Cidade - @item.UF<br />@item.Complemento <br />Cep: @item.Cep">
+                                        Endereço
+                                    </button>
+
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true"
+                                            title="@item.Nome<br />@item.Email<br />@item.DDD @item.Telefone<br />@item.CPF">
+                                        Cliente
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-info btn-circle" title="Imprimir Etiqueta" onclick='printDiv(@item.IDPagamento);'>
+                                        <i class="fa fa-print"></i>
+                                    </button>
+                                    <button data-id="@item.IDPagamento" class="btn btn-info btn-circle informar_entrega" title="Informar Entrega">
+                                        <i class="fa fa-truck"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <table class="table table-bordered table-striped table-sm" id='@item.IDPagamento' style="display:none;" width="100%" cellspacing="0">
+                                <tr>
+                                    <th>Produto</th>
+                                    <td>@item.Campanha</td>
+                                </tr>
+                                <tr>
+                                    <th>Código da transação</th>
+                                    <td>@item.CodigoTrasacao</td>
+                                </tr>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <td>
+                                        @item.Nome<br />
+                                        @item.Email<br />
+                                        @item.DDD @item.Telefone<br />
+                                        @item.CPF
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Endereço</th>
+                                    <td>
+                                        @item.Logradouro, @item.Numero<br />
+                                        @item.Bairro<br />
+                                        @item.Cidade - @item.UF<br />
+                                        @item.Complemento <br />
+                                        Cep: @item.Cep
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Data da compra</th>
+                                    <td>@item.DataCompra.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                                <tr>
+                                    <th>Status do pagamento</th>
+                                    <td>@item.StatusPagamento</td>
+                                </tr>
+                                <tr>
+                                    <th>Status da entrega</th>
+                                    <td>@item.SituacaoEntrega</td>
+                                </tr>
+                                <tr>
+                                    <th>Tipo entrega</th>
+                                    <td>@(item.TipoEntrega == 1 ? "PAC" : "SEDEX")</td>
+                                </tr>
+                            </table>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<script>
+    var htmlOld = null;
+
+    var load = function () {
+        htmlOld = document.body.innerHTML;
+        $('#dataTable').DataTable({
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
+
+        $('[data-toggle="tooltip"]').tooltip({
+            html: true,
+            content: function () {
+                return $(this).prop('title');
+            }
+        });
+
+
+    }
+
+    function printDiv(id) {
+
+        var headstr = "<html><head><title></title></head><body><table class='table table-bordered table-striped table-sm' width='100%' cellspacing='0'>";
+        var footstr = "</table></body>";
+
+        $('#' + id).show();
+        var newstr = $('#' + id).html();
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = htmlOld;
+
+        load();
+        return false;
+    }
+
+    $(document).ready(load());
+
+    $(".informar_entrega").click(function () {
+        var id = $(this).attr("data-id");
+        $("#form-mudar").prop('action', '@Url.Action("InformarEntrega", "Campanhas")/' + id);
+        $("#informar_entrega").modal();
+    });
+
+</script>
+
+
+<div class="modal fade" id="informar_entrega" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form-mudar" }))
+            {
+                
+                <div class="modal-body">
+                    @Html.AntiForgeryToken()
+                    <select name="status" class="form-control">
+                        <option value="Enviado">Enviado</option>
+                        <option value="Entregue">Entregue</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+
+                    <input class="btn btn-primary" type="submit" value="Enviar" />
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
