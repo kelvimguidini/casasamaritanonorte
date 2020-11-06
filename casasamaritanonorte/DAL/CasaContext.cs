@@ -5,6 +5,7 @@ using System.Web;
 using casasamaritanonorte.Models;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Migrations.History;
 
 namespace casasamaritanonorte.DAL
 {

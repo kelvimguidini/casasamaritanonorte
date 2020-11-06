@@ -173,7 +173,172 @@ a.fn.owlCarousel.Constructor.Plugins.Animate=e}(window.Zepto||window.jQuery,wind
 
 
 /*========= MobileMenu =========*/
-!function($){"use strict";$.fn.meanmenu=function(e){var n={meanMenuTarget:jQuery(this),meanMenuContainer:"body",meanMenuClose:"X",meanMenuCloseSize:"18px",meanMenuOpen:"<span /><span /><span />",meanRevealPosition:"right",meanRevealPositionDistance:"0",meanRevealColour:"",meanScreenWidth:"480",meanNavPush:"",meanShowChildren:!0,meanExpandableChildren:!0,meanExpand:"+",meanContract:"-",meanRemoveAttrs:!1,onePage:!1,meanDisplay:"block",removeElements:""};e=$.extend(n,e);var a=window.innerWidth||document.documentElement.clientWidth;return this.each(function(){var n=e.meanMenuTarget,t=e.meanMenuContainer,r=e.meanMenuClose,i=e.meanMenuCloseSize,s=e.meanMenuOpen,u=e.meanRevealPosition,m=e.meanRevealPositionDistance,l=e.meanRevealColour,o=e.meanScreenWidth,c=e.meanNavPush,v=".meanmenu-reveal",h=e.meanShowChildren,d=e.meanExpandableChildren,y=e.meanExpand,j=e.meanContract,Q=e.meanRemoveAttrs,f=e.onePage,g=e.meanDisplay,p=e.removeElements,C=!1;(navigator.userAgent.match(/iPhone/i)||navigator.userAgent.match(/iPod/i)||navigator.userAgent.match(/iPad/i)||navigator.userAgent.match(/Android/i)||navigator.userAgent.match(/Blackberry/i)||navigator.userAgent.match(/Windows Phone/i))&&(C=!0),(navigator.userAgent.match(/MSIE 8/i)||navigator.userAgent.match(/MSIE 7/i))&&jQuery("html").css("overflow-y","scroll");var w="",x=function(){if("center"===u){var e=window.innerWidth||document.documentElement.clientWidth,n=e/2-22+"px";w="left:"+n+";right:auto;",C?jQuery(".meanmenu-reveal").animate({left:n}):jQuery(".meanmenu-reveal").css("left",n)}},A=!1,E=!1;"right"===u&&(w="right:"+m+";left:auto;"),"left"===u&&(w="left:"+m+";right:auto;"),x();var M="",P=function(){M.html(jQuery(M).is(".meanmenu-reveal.meanclose")?r:s)},W=function(){jQuery(".mean-bar,.mean-push").remove(),jQuery(t).removeClass("mean-container"),jQuery(n).css("display",g),A=!1,E=!1,jQuery(p).removeClass("mean-remove")},b=function(){var e="background:"+l+";color:"+l+";"+w;if(o>=a){jQuery(p).addClass("mean-remove"),E=!0,jQuery(t).addClass("mean-container"),jQuery(".mean-container").prepend('<div class="mean-bar"><a href="#nav" class="meanmenu-reveal" style="'+e+'">Show Navigation</a><nav class="mean-nav"></nav></div>');var r=jQuery(n).html();jQuery(".mean-nav").html(r),Q&&jQuery("nav.mean-nav ul, nav.mean-nav ul *").each(function(){jQuery(this).is(".mean-remove")?jQuery(this).attr("class","mean-remove"):jQuery(this).removeAttr("class"),jQuery(this).removeAttr("id")}),jQuery(n).before('<div class="mean-push" />'),jQuery(".mean-push").css("margin-top",c),jQuery(n).hide(),jQuery(".meanmenu-reveal").show(),jQuery(v).html(s),M=jQuery(v),jQuery(".mean-nav ul").hide(),h?d?(jQuery(".mean-nav ul ul").each(function(){jQuery(this).children().length&&jQuery(this,"li:first").parent().append('<a class="mean-expand" href="#" style="font-size: '+i+'">'+y+"</a>")}),jQuery(".mean-expand").on("click",function(e){e.preventDefault(),jQuery(this).hasClass("mean-clicked")?(jQuery(this).text(y),jQuery(this).prev("ul").slideUp(300,function(){})):(jQuery(this).text(j),jQuery(this).prev("ul").slideDown(300,function(){})),jQuery(this).toggleClass("mean-clicked")})):jQuery(".mean-nav ul ul").show():jQuery(".mean-nav ul ul").hide(),jQuery(".mean-nav ul li").last().addClass("mean-last"),M.removeClass("meanclose"),jQuery(M).click(function(e){e.preventDefault(),A===!1?(M.css("text-align","center"),M.css("text-indent","0"),M.css("font-size",i),jQuery(".mean-nav ul:first").slideDown(),A=!0):(jQuery(".mean-nav ul:first").slideUp(),A=!1),M.toggleClass("meanclose"),P(),jQuery(p).addClass("mean-remove")}),f&&jQuery(".mean-nav ul > li > a:first-child").on("click",function(){jQuery(".mean-nav ul:first").slideUp(),A=!1,jQuery(M).toggleClass("meanclose").html(s)})}else W()};C||jQuery(window).resize(function(){a=window.innerWidth||document.documentElement.clientWidth,a>o,W(),o>=a?(b(),x()):W()}),jQuery(window).resize(function(){a=window.innerWidth||document.documentElement.clientWidth,C?(x(),o>=a?E===!1&&b():W()):(W(),o>=a&&(b(),x()))}),b()})}}(jQuery);
+/*
+	MobileMenu v1
+	(c) 2013 Sargis Markosyan - https://github.com/sargismarkosyan/MobileMenu
+	license: http://www.opensource.org/licenses/mit-license.php
+*/
+(function ($, window, document) {
+
+    $.fn.mobilemenu = function (userOptions) {
+        var menuCallObject = this;
+        var menu;
+        var menuInner;
+
+        var options = {
+            menu: false,
+            menuOpenIcon: false,
+            menuOpenObject: false,
+            body: '',
+            onInit: false,
+            onOpen: false,
+            onStartCloseAnimation: false,
+            onClose: false,
+            onUlInit: false,
+            theme: 'mobilemenu-theme'
+        };
+
+        //Mearging defoult options with userOptions
+        $.extend(true, options, userOptions);
+
+        //This will create mobilemenu object if it needed
+        var initMenu = function () {
+            var body = options.body;
+            if (!body)
+                body = $('<div>').append(menuCallObject.clone()).html();
+            return $('<div class="mobilemenu ' + options.theme + '"><div class="mobilemenu--inner">' + body + '</div></div>').prependTo(document.body);
+        };
+
+        //This will open menu
+        var openMenu = function () {
+            menu.addClass('js-mobilemenu--opened');
+
+            $(document.documentElement).css({ 'overflow-y': 'hidden', 'height': '100%' });
+            $(document.body).css({ 'overflow-y': 'hidden', 'height': '100%' });
+
+            updateHeight();
+
+            if (options.onOpen)
+                options.onOpen(menu, options);
+        };
+
+        //This will close menu
+        var closeMenu = function () {
+            menu.removeClass('js-mobilemenu--opened');
+
+            $(document.documentElement).css({ 'overflow-y': '', 'height': '' });
+            $(document.body).css({ 'overflow-y': '', 'height': '' });
+
+            if (options.onClose)
+                options.onClose(menu, options);
+        };
+
+        //This will add overflow-y: scroll if needed
+        var updateHeight = function () {
+            if (menu.height() < menuInner.height()) {
+                menu.css('overflow-y', 'scroll');
+            } else {
+                menu.css('overflow-y', 'visible');
+            }
+        };
+
+        //If mobile open object is not defined, create it and attach open function
+        if (!options.menuOpenIcon)
+            options.menuOpenIcon = '<span class="mobilemenu--open-icon ' + options.theme + '"></span>';
+        if (!options.menuOpenObject)
+            options.menuOpenObject = $(options.menuOpenIcon).insertBefore(menuCallObject);
+        options.menuOpenObject.click(openMenu);
+
+        //If menu is not defined create it
+        if (options.menu) {
+            menu = options.menu;
+        } else {
+            menu = initMenu();
+        }
+
+        menuInner = menu.children().eq(0);
+
+        //Attache close function
+        menuInner.bind('touchstart mousedown', function (e) {
+            e.stopPropagation();
+        });
+        menu.bind('touchstart mousedown', function () {
+            if (options.onStartCloseAnimation)
+                options.onStartCloseAnimation(menu, options);
+
+            menu.addClass('js-mobilemenu--animate-out');
+            setTimeout(function () {
+                menu.removeClass('js-mobilemenu--animate-out');
+                closeMenu();
+            }, 300);
+        });
+
+        //Add ul functions
+        function updateUlLis(ul, index) {
+            $(ul).children('li').children('ul').each(function (subIndex) {
+                var li = $(this).parent();
+                li.addClass('js-mobilemenu--li-with-child');
+
+                var lastClick = 0;
+                li.children('a, span').click(function (e) {
+                    if (li.hasClass('js-mobilemenu--li-active')) {
+                        li.removeClass('js-mobilemenu--li-active');
+                    } else {
+                        li.addClass('js-mobilemenu--li-active');
+                    }
+
+                    if (options.theme == 'mobilemenu-theme') {
+                        setTimeout(function () {
+                            updateHeight();
+                        }, 300);
+                    } else {
+                        updateHeight();
+                    }
+
+                    if ((new Date().getTime()) - lastClick < 500)
+                        return true;
+
+                    lastClick = new Date().getTime();
+
+                    return false;
+                });
+
+                updateUlLis(this, subIndex);
+            });
+
+            if (options.onUlInit)
+                options.onUlInit(ul, index, menu, options);
+        }
+
+        //Update menu inner and readd ul function
+        function updateMenu() {
+            menuInner.children('ul').each(function (index) {
+                if (!$(this).hasClass('js-mobilemenu--ul-processed')) {
+                    $(this).addClass('js-mobilemenu--ul-processed');
+                    updateUlLis(this, index);
+                }
+            });
+        }
+
+        updateMenu();
+
+        if (options.onInit)
+            options.onInit(menu, options);
+
+        return {
+            'menu': menu,
+            'menuInner': menuInner,
+            'openMenu': openMenu,
+            'closeMenu': closeMenu,
+            'updateMenu': updateMenu
+        };
+    };
+
+    $.mobilemenu = function (options) {
+        return $(document.body).children().eq(0).mobilemenu(options);
+    };
+
+}(jQuery, window, document));
 
 
 

@@ -127,7 +127,7 @@ namespace casasamaritanonorte.Controllers
                 await db.SaveChangesAsync();
 
                 ViewBag.Mensagem = String.Format("Evento cadastrado com sucesso!");
-                return RedirectToAction("Index", "Campanha");
+                return RedirectToAction("Index", "Evento");
             }
 
             return View(eventoVM);

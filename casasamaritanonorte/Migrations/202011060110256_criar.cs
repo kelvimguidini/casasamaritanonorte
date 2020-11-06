@@ -1,9 +1,9 @@
-namespace casasamaritanonorte.Migrations
+﻿namespace casasamaritanonorte.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class criarbanco : DbMigration
+    public partial class criar : DbMigration
     {
         public override void Up()
         {

@@ -84,12 +84,31 @@
 
                     </div>
                     <!-- Mobile Menu -->
-                    <div class="mobile-menu d-block d-lg-none">
-                        <div class="logo">
+                    <div class="mobile-menu d-block d-lg-none mean-container">
+                        <div class="mean-bar">
+                            <a href="#nav" class="meanmenu-reveal arrowcolapse collapsed" data-toggle="collapse" style="right: 0px; left: auto; text-align: center; text-indent: 0px; font-size: 18px;">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </a>
+                            <nav class="mean-nav">
+                                <ul class="mainmenu panel-collapse collapse" id="nav">
+                                    <li><a href="@Url.Action("Index", "Home")">Início</a></li>
+                                    <li><a href="@Url.Action("About", "Home")">Sobre Nós</a></li>
+                                    <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                                    <li><a href="@Url.Action("Galeria", "Home")">Galeria</a></li>
+                                    <li><a href="@Url.Action("Doacao", "Campanhas")">Doações</a></li>
+                                    <li><a href="@Url.Action("Contact", "Home")">Contato</a></li>
+                                </ul>
+
+                            </nav>
+                        </div>
+                        <div class="logo" style="height: 62px;width: 150px;">
                             <a href="@Url.Action("Index", "Home")">
                                 <img src="~/Imagens/logo.png" alt="Casa de Repouso O Bom Samaritano">
                             </a>
                         </div>
+
                     </div>
                     <!-- Mobile Menu -->
                 </div>
